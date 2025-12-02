@@ -1,0 +1,106 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f6f8;
+    margin: 0;
+    padding: 0;
+}
+
+*{
+    margin: 0%;
+    padding: 0%;
+}
+
+/* Fade in animation */
+body {
+    opacity: 0;
+    animation: fadeIn 2.5s ease-in-out forwards;
+}
+
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+    }
+}
+
+.bg-img {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.845), rgb(0, 0, 0)), url('./download\ \(95\).jpeg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+    height: 100vh;
+    position: relative;
+
+}
+.hero{
+    padding-top: 50px;
+}
+.hero h1{
+    color: white;
+    margin: auto;
+    text-align: center;
+    padding-top: 100px;
+    font-size: 50px;
+}
+
+main{
+    color: white;
+    margin: auto;
+    text-align: center;
+    padding-top: 50px;
+    font-size: 30px;
+}
+
+main button{
+    padding:10px 30px;
+    margin-top: 40px;
+    border-radius: 10px;
+    background-color: gold;
+    color: white;
+    font-size: 20px;
+}
+
+h2{
+    font-size: 20px;
+}
+
+/* .container {
+    max-width: 700px;
+    margin: 50px auto;
+    padding: 30px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.1);
+}
+
+h1, h2 {
+    text-align: center;
+    color: #333;
+}
+
+a, button {
+    display: inline-block;
+    text-decoration: none;
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 25px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+a:hover, button:hover {
+    background-color: #45a049;
+}
+
+input[type="text"], input[type="password"], input[type="radio"] {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0 15px 0;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.question {
+    margin-bottom: 5px;
+} */

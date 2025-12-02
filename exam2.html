@@ -1,0 +1,114 @@
+<?php
+$conn = mysqli_connect("localhost", "root", "", "exam_db2");
+
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error());
+}
+?>
+<?php
+
+session_start();
+include "db.php";
+
+if (!isset($_SESSION['student_id'])) {
+    header("Location: login2.php");
+    exit();
+}
+
+$question = mysqli_query($conn, "SELECT * FROM questions_exam2");
+
+?>
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>Exam Page</title>
+<link rel="stylesheet" href="exam.css">
+</head>
+<body class='bg-img'>
+<div id="timerBox" class='time' style="font-size:24px; font-weight:bold; margin-bottom:10px;">
+    <b>Time Left: <span id="timer">01:00:00</span></b>
+</div>
+
+<script>
+var examTime = 3600; // 1 hour (change this)
+var examEnded = false;
+
+function startTimer() {
+    var timerDisplay = document.getElementById('timer');
+
+    var countdown = setInterval(function() {
+
+        if (examEnded) {
+            clearInterval(countdown);
+            return;
+        }
+
+        var hours = Math.floor(examTime / 3600);
+        var minutes = Math.floor((examTime % 3600) / 60);
+        var seconds = examTime % 60;
+
+        timerDisplay.textContent =
+            (hours < 10 ? "0" : "") + hours + ":" +
+            (minutes < 10 ? "0" : "") + minutes + ":" +
+            (seconds < 10 ? "0" : "") + seconds;
+
+        examTime--;
+
+        // TIME UP ✔
+        if (examTime < 0) {
+            examEnded = true;
+            clearInterval(countdown);
+
+            // Disable all inputs
+            const inputs = document.querySelectorAll("input, textarea, select");
+            inputs.forEach(input => input.disabled = true);
+
+            // Alert student
+            alert("TIME IS UP! Please click OK to submit your exam.");
+
+            // Auto-submit
+            document.getElementById("examForm").submit();
+        }
+
+    }, 1000);
+}
+
+startTimer();
+</script>
+
+<h2>Welcome, <?php echo $_SESSION['student_name']; ?></h2>
+<h2>Class: <?php echo $_SESSION['student_class']; ?></h2>
+<br>
+<br>
+<p>Answer All Questions</p>
+<h3>OBJECTIVE</h3>
+<form action="submit_exam2.php" method="POST"  id="examForm">
+
+<?php
+$questions_exam2 = mysqli_query($conn, "SELECT * FROM questions_exam2");
+
+while ($question = mysqli_fetch_assoc($questions_exam2)):
+?>
+    <p><b><?php echo $question['question']; ?></b></p>
+
+    <input type="radio" name="q<?php echo $question['id']; ?>" value="A"> 
+        <?php echo $question['option_a']; ?><br>
+
+    <input type="radio" name="q<?php echo $question['id']; ?>" value="B"> 
+        <?php echo $question['option_b']; ?><br>
+
+    <input type="radio" name="q<?php echo $question['id']; ?>" value="C"> 
+        <?php echo $question['option_c']; ?><br>
+
+    <input type="radio" name="q<?php echo $question['id']; ?>" value="D"> 
+        <?php echo $question['option_d']; ?><br><br>
+
+<?php endwhile; ?>
+
+
+<button type="submit">Submit Exam</button>
+</form>
+
+</body>
+</html>

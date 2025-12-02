@@ -1,0 +1,36 @@
+<?php
+session_start();
+include "db.php";
+
+if (!isset($_SESSION['student_id'])) {
+    header("Location: login2.php");
+    exit();
+}
+
+$id = $_SESSION['student_id'];
+
+$result = mysqli_query($conn, 
+"SELECT r.id, s.name, s.class, r.score, r.exam_date
+FROM results_exam2 r
+JOIN students_exam2 s ON r.student_id = s.id
+ORDER BY r.exam_date DESC");
+
+$row = mysqli_fetch_assoc($result);
+?>
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>Your Result</title>
+<link rel="stylesheet" href="result.css">
+</head>
+<body class='bg-img'>
+
+<div>
+<h2>Result for <?php echo $_SESSION['student_name']; ?></h2>
+<p>Score: <b><?php echo $row['score']; ?></b></p>
+
+<button><a href="logout2.php">Logout</a></button>
+</div>
+</body>
+</html>

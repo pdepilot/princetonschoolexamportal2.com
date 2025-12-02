@@ -1,0 +1,28 @@
+<?php
+session_start();
+include "db.php";
+
+if (!isset($_SESSION['student_id'])) {
+    header("Location: login2.php");
+    exit();
+}
+
+$student_id = $_SESSION['student_id'];
+
+$questions = mysqli_query($conn, "SELECT * FROM questions_exam2");
+$score = 0;
+
+while ($q = mysqli_fetch_assoc($questions)) {
+    $qid = $q['id'];
+    $correct = $q['correct_answer'];
+
+    if (isset($_POST["q$qid"]) && $_POST["q$qid"] == $correct) {
+        $score++;
+    }
+}
+
+mysqli_query($conn, "INSERT INTO results_exam2 (student_id, score) VALUES ('$student_id', '$score')");
+
+header("Location: result2.php");
+exit();
+?>
